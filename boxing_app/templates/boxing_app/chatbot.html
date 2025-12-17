@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxing Website with AI Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-black: #000000;
+            --secondary-black: #1a1a1a;
+            --accent-red: #dc2626;
+            --light-red: #ef4444;
+            --text-white: #ffffff;
+            --text-gray: #8c8c8c;
+            --border-color: #333333;
+        }
+        
+        body {
+            background-color: var(--primary-black);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary-black), var(--secondary-black));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-red);
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-red);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: var(--secondary-black);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-red);
+        }
+        
+        /* Chatbot Styles */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            background: var(--light-red);
+        }
+        
+        .chatbot-toggle i {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: var(--secondary-black);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .chatbot-header {
+            background: var(--primary-black);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .chatbot-header h3 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chatbot-header h3 i {
+            color: var(--accent-red);
+        }
+        
+        .close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-chatbot:hover {
+            color: var(--accent-red);
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background: var(--accent-red);
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background: var(--primary-black);
+            color: white;
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 0;
+        }
+        
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-question {
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-question:hover {
+            background: var(--accent-red);
+            color: white;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--primary-black);
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            outline: none;
+            background: var(--secondary-black);
+            color: white;
+        }
+        
+        .chatbot-input input:focus {
+            border-color: var(--accent-red);
+        }
+        
+        .chatbot-input button {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .chatbot-input button:hover {
+            background: var(--light-red);
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: var(--primary-black);
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-style: italic;
+            color: var(--text-gray);
+        }
+        
+        .typing-dots {
+            display: inline-flex;
+            gap: 3px;
+        }
+        
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--secondary-black);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .nav-links li {
+                margin: 0 1rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .chatbot-container {
+                width: 300px;
+                height: 400px;
+                right: 15px;
+                bottom: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">BOXING<span style="color:white">PRO</span></div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Fighters</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Training</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to BoxingPro</h1>
+                <p>Your ultimate destination for boxing news, training tips, and fighter profiles</p>
+            </div>
+        </section>
+        
+        <section class="content-grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1599058917765-a780eda07a3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Boxing Training">
+                <div class="card-content">
+                    <h3>Training Programs</h3>
+                    <p>Professional boxing training programs for all skill levels, from beginners to champions.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Boxing Equipment">
+                <div class="card-content">
+                    <h3>Equipment Guide</h3>
+                    <p>Find the best boxing gear and equipment to enhance your training and performance.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Boxing Match">
+                <div class="card-content">
+                    <h3>Upcoming Events</h3>
+                    <p>Stay updated with the latest boxing matches, tournaments, and championship events.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <h3><i class="fas fa-robot"></i> BoxingBot Assistant</h3>
+            <button class="close-chatbot" id="closeChatbot">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                <p>👊 Hey there! I'm BoxingBot, your AI assistant for all things boxing. How can I help you today?</p>
+                <div class="quick-questions">
+                    <div class="quick-question" data-question="What are basic boxing techniques?">Basic Techniques</div>
+                    <div class="quick-question" data-question="How to improve footwork?">Footwork Tips</div>
+                    <div class="quick-question" data-question="What equipment do I need?">Essential Gear</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <span>BoxingBot is typing</span>
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Ask about boxing..." maxlength="200">
+            <button id="sendMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 BoxingPro. All rights reserved. | Train Like a Champion</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeChatbot = document.getElementById('closeChatbot');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const quickQuestions = document.querySelectorAll('.quick-question');
+
+        // Boxing Knowledge Base
+        const boxingKnowledge = {
+            techniques: {
+                "basic boxing stances": "The main boxing stances are: 1) Orthodox (left foot forward for right-handed), 2) Southpaw (right foot forward for left-handed). Keep feet shoulder-width apart, knees slightly bent, hands up protecting your face.",
+                "jab technique": "The jab is your most important punch. Extend your lead hand straight out, rotate fist to land with knuckles, snap it back quickly. Use it to measure distance and set up combinations.",
+                "cross technique": "The cross is a power punch from your rear hand. Rotate your hips and shoulders while extending the arm, pivot back foot for maximum power.",
+                "hook technique": "Hooks are thrown in a circular motion. Keep elbow at 90 degrees, rotate your torso, and pivot your feet. Don't swing wide - keep it tight.",
+                "uppercut technique": "Uppercuts are thrown upward. Bend knees slightly, drop the hand, and drive upward using leg power. Great for close range.",
+                "defensive techniques": "Key defenses: 1) Slip - move head sideways, 2) Bob and weave - duck under punches, 3) Parry - deflect punches with gloves, 4) Block - cover up, 5) Footwork - move out of range"
+            },
+            
+            training: {
+                "improve punching power": "To increase punching power: 1) Focus on technique over strength, 2) Do explosive exercises like medicine ball throws, 3) Strengthen core muscles, 4) Practice hip rotation, 5) Use heavy bag with proper form",
+                "boxing footwork drills": "Essential footwork drills: 1) Ladder drills for agility, 2) Shadow boxing with emphasis on movement, 3) Circle drills around a cone, 4) Pivot practice, 5) Skip rope for 15-30 minutes daily",
+                "endurance training": "Build boxing endurance with: 1) Roadwork (running) 3-4 times weekly, 2) High-intensity bag work, 3) Circuit training, 4) Sparring sessions, 5) Interval training on assault bike",
+                "speed training": "Improve hand speed with: 1) Speed bag training, 2) Double-end bag, 3) Shadow boxing with light weights, 4) Focus mitts with a trainer, 5) Reaction drills"
+            },
+            
+            equipment: {
+                "essential boxing equipment": "Must-have gear: 1) Hand wraps for wrist support, 2) Boxing gloves (16oz for sparring), 3) Mouthguard, 4) Headgear (for sparring), 5) Groin protector, 6) Quality boxing shoes",
+                "choose boxing gloves": "Select gloves based on use: Bag gloves for training, sparring gloves (16oz+) for partner work, competition gloves for fights. Leather lasts longer than synthetic.",
+                "hand wrapping technique": "Wrap hands properly: Start at wrist, wrap around thumb, through fingers, across knuckles, and secure. Should feel snug but not cutting circulation."
+            },
+            
+            rules: {
+                "basic boxing rules": "Main rules: 3-minute rounds with 1-minute rest, 10-point must system, legal punches above belt, no hitting behind head or back, referee stops fight if fighter can't continue",
+                "scoring in boxing": "Fights are scored: 10-9 for round winner, 10-8 for dominant round, 10-7 for very dominant. Judges consider clean punching, effective aggression, ring generalship, and defense",
+                "weight classes": "Main weight classes: Heavyweight (200+ lbs), Light Heavyweight (175 lbs), Middleweight (160 lbs), Welterweight (147 lbs), Lightweight (135 lbs), Featherweight (126 lbs)"
+            },
+            
+            nutrition: {
+                "boxing diet": "Boxers need: Lean proteins (chicken, fish), complex carbs (brown rice, oats), healthy fats (avocado, nuts), plenty vegetables. Stay hydrated and time meals around training.",
+                "weight cutting": "Safe weight cutting involves gradual reduction over weeks, never drastic dehydration. Work with nutritionist and maintain performance."
+            }
+        };
+
+        // AI Response Generator
+        function generateBoxingResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Check for specific topics
+            for (const [category, topics] of Object.entries(boxingKnowledge)) {
+                for (const [keyword, response] of Object.entries(topics)) {
+                    if (lowerMessage.includes(keyword)) {
+                        return response;
+                    }
+                }
+            }
+            
+            // General responses for common questions
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return "👊 Hello! Ready to talk boxing? Ask me about techniques, training, equipment, or rules!";
+            }
+            
+            if (lowerMessage.includes('thank')) {
+                return "You're welcome! Keep training hard and let me know if you have more boxing questions!";
+            }
+            
+            if (lowerMessage.includes('beginner') || lowerMessage.includes('start')) {
+                return "For beginners: Start with proper stance and basic punches (jab, cross). Focus on defense and footwork. Always use hand wraps and get quality instruction. Consistency is key!";
+            }
+            
+            if (lowerMessage.includes('sparring')) {
+                return "Sparring tips: Start light, focus on technique over power, always use headgear and mouthguard, listen to your coach, and spar with different partners to learn various styles.";
+            }
+            
+            // Default response for non-boxing questions
+            if (!lowerMessage.match(/(box|punch|fight|train|glove|stance|jab|hook|uppercut|spar|round|ko|tko|ring|coach)/)) {
+                return "I specialize in boxing knowledge only. Please ask me about boxing techniques, training, equipment, rules, or history!";
+            }
+            
+            // Fallback response
+            return "That's a great boxing question! Based on your query, I'd recommend focusing on proper technique first. Would you like more specific information about any particular aspect of boxing?";
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const messageContent = document.createElement('p');
+            messageContent.textContent = text;
+            messageDiv.appendChild(messageContent);
+            
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Process user message
+        function processUserMessage() {
+            const message = chatbotInput.value.trim();
+            if (message === '') return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            chatbotInput.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Simulate AI thinking and response
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = generateBoxingResponse(message);
+                addMessage(response, 'bot');
+            }, 1500);
+        }
+
+        // Event Listeners
+        chatbotToggle.addEventListener('click', () => {
+            chatbotContainer.style.display = 'flex';
+            chatbotInput.focus();
+        });
+
+        closeChatbot.addEventListener('click', () => {
+            chatbotContainer.style.display = 'none';
+        });
+
+        sendMessage.addEventListener('click', processUserMessage);
+
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                processUserMessage();
+            }
+        });
+
+        // Quick question buttons
+        quickQuestions.forEach(button => {
+            button.addEventListener('click', () => {
+                const question = button.getAttribute('data-question');
+                chatbotInput.value = question;
+                processUserMessage();
+            });
+        });
+
+        // Close chatbot when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!chatbotContainer.contains(e.target) && 
+                !chatbotToggle.contains(e.target) && 
+                chatbotContainer.style.display === 'flex') {
+                chatbotContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

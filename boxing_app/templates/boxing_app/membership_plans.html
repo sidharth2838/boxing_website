@@ -1,0 +1,686 @@
+{% extends 'boxing_app/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block page_title %}Membership Plans - Boxing Academy{% endblock %}
+
+{% block content %}
+<!-- Ellipsus-inspired CSS -->
+<style>
+    /* Modern Variables */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #dc2626 100%);
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        --text-glow: 0 0 20px rgba(220, 38, 38, 0.5);
+    }
+
+    /* Modern Scroll Behavior */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Hero Section - Ellipsus Style */
+    .modern-hero {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(239, 68, 68, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(220, 38, 38, 0.05) 0%, transparent 50%);
+        animation: backgroundShift 20s ease-in-out infinite;
+    }
+
+    @keyframes backgroundShift {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(1deg); }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .modern-title {
+        font-size: clamp(3rem, 8vw, 8rem);
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+        margin-bottom: 2rem;
+    }
+
+    .modern-subtitle {
+        font-size: clamp(1.25rem, 3vw, 1.5rem);
+        color: #94a3b8;
+        font-weight: 300;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* Glass Morphism Cards */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        box-shadow: var(--glass-shadow);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: rgba(220, 38, 38, 0.3);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 0 80px rgba(220, 38, 38, 0.1);
+    }
+
+    /* Modern Button Styles */
+    .modern-btn {
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 16px;
+        padding: 1rem 2.5rem;
+        font-weight: 600;
+        font-size: 1.125rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .modern-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .modern-btn:hover::before {
+        left: 100%;
+    }
+
+    .modern-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+    }
+
+    /* Section Styles */
+    .modern-section {
+        padding: 8rem 0;
+        position: relative;
+    }
+
+    .section-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-subtitle {
+        font-size: 1.25rem;
+        color: #94a3b8;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 4rem;
+        font-weight: 300;
+    }
+
+    /* Feature Grid */
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 4rem;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: var(--primary-gradient);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+    }
+
+    /* Pricing Cards */
+    .pricing-card {
+        padding: 3rem 2rem;
+        text-align: center;
+        position: relative;
+    }
+
+    .pricing-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary-gradient);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .price-amount {
+        font-size: 4rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        margin: 1rem 0;
+    }
+
+    .price-period {
+        color: #94a3b8;
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    /* Modern Form Styles */
+    .modern-form {
+        background: var(--glass-bg);
+        /* backdrop-filter: blur(20px); */
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 3rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        color: white;
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: rgba(220, 38, 38, 0.5);
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+
+    /* Animation Classes */
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease;
+    }
+
+    .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .scale-in {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.6s ease;
+    }
+
+    .scale-in.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .modern-section {
+            padding: 4rem 0;
+        }
+        
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .modern-form {
+            padding: 2rem;
+            margin: 0 1rem;
+        }
+    }
+</style>
+
+<!-- Modern Hero Section -->
+<section class="modern-hero flex items-center justify-center relative">
+    <div class="hero-background"></div>
+    
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-red-500 rounded-full opacity-20 animate-pulse"></div>
+        <div class="absolute top-3/4 right-1/3 w-6 h-6 bg-red-600 rounded-full opacity-30 animate-ping" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-3 h-3 bg-red-400 rounded-full opacity-25 animate-bounce" style="animation-delay: 2s;"></div>
+    </div>
+
+    <div class="content-container mx-auto text-center hero-content">
+        <div class="mb-12">
+            <h1 class="modern-title fade-in-up">
+                Elite Boxing<br>Membership
+            </h1>
+            <div class="w-24 h-1 bg-gradient-to-r from-red-600 to-red-800 mx-auto mb-8 rounded-full"></div>
+            <p class="modern-subtitle fade-in-up" style="transition-delay: 0.2s">
+                Transform your potential into championship performance with our premium training programs
+            </p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up" style="transition-delay: 0.4s">
+            <a href="#pricing" class="modern-btn">
+                <i class="fas fa-crown mr-3"></i>
+                View Plans
+            </a>
+            <a href="#features" class="modern-btn" style="background: transparent; border: 2px solid rgba(255,255,255,0.2);">
+                <i class="fas fa-star mr-3"></i>
+                Learn More
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="modern-section bg-black">
+    <div class="content-container mx-auto">
+        <h2 class="section-title fade-in-up">Why Choose Elite Boxing?</h2>
+        <p class="section-subtitle fade-in-up" style="transition-delay: 0.1s">
+            Experience world-class training with cutting-edge facilities and expert coaching
+        </p>
+
+        <div class="feature-grid">
+            <div class="glass-card feature-item fade-in-up">
+                <div class="feature-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-3">Premium Equipment</h3>
+                <p class="text-gray-400">State-of-the-art training equipment used by professional fighters</p>
+            </div>
+
+            <div class="glass-card feature-item fade-in-up" style="transition-delay: 0.1s">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-3">Expert Coaches</h3>
+                <p class="text-gray-400">Learn from championship-winning coaches with decades of experience</p>
+            </div>
+
+            <div class="glass-card feature-item fade-in-up" style="transition-delay: 0.2s">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-3">Flexible Schedule</h3>
+                <p class="text-gray-400">24/7 access with classes designed for your busy lifestyle</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hot Sale Plans Section -->
+<section id="pricing" class="modern-section bg-gradient-to-b from-black to-gray-900">
+    <div class="content-container mx-auto">
+        <h2 class="section-title fade-in-up">Exclusive Membership Plans</h2>
+        <p class="section-subtitle fade-in-up" style="transition-delay: 0.1s">
+            Limited time offers with special discounts for dedicated fighters
+        </p>
+
+        <!-- Hot Sale Plans -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {% for plan in hot_sale_plans %}
+            <div class="glass-card pricing-card fade-in-up" style="transition-delay: {{ forloop.counter0 }}00ms">
+                <div class="pricing-badge">
+                    <i class="fas fa-bolt mr-2"></i>
+                    HOT DEAL
+                </div>
+                
+                <div class="feature-icon mx-auto mb-6">
+                    <i class="fas fa-fire"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-white mb-4">{{ plan.name }}</h3>
+                
+                <div class="mb-6">
+                    {% if plan.original_price %}
+                    <div class="text-lg text-gray-400 line-through mb-2">
+                        ${{ plan.original_price }}
+                    </div>
+                    {% endif %}
+                    <div class="price-amount">
+                        ${{ plan.price }}
+                    </div>
+                    <div class="price-period">/ {{ plan.get_duration_display_text }}</div>
+                    {% if plan.get_savings_amount > 0 %}
+                    <div class="text-green-400 font-semibold mt-2">
+                        Save ${{ plan.get_savings_amount }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <p class="text-gray-400 mb-6 leading-relaxed">
+                    {{ plan.description }}
+                </p>
+
+                <ul class="space-y-3 mb-8">
+                    {% for feature in plan.get_features_list %}
+                    <li class="flex items-center text-gray-300">
+                        <i class="fas fa-check text-green-400 mr-3"></i>
+                        {{ feature }}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <button class="modern-btn w-full register-btn" data-plan="{{ plan.name }}">
+                    <i class="fas fa-bolt mr-2"></i>
+                    Get This Deal
+                </button>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <div class="feature-icon mx-auto mb-6">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">No Current Hot Deals</h3>
+                <p class="text-gray-400">Check back soon for exclusive offers!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Regular Plans Section -->
+<section class="modern-section bg-black">
+    <div class="content-container mx-auto">
+        <h2 class="section-title fade-in-up">Professional Training Programs</h2>
+        <p class="section-subtitle fade-in-up" style="transition-delay: 0.1s">
+            Comprehensive plans designed for every level of fighter
+        </p>
+
+        <!-- Category Filter -->
+        <div class="max-w-2xl mx-auto mb-12 fade-in-up" style="transition-delay: 0.2s">
+            <select id="planCategory" class="form-input text-center">
+                <option value="">Select Your Experience Level</option>
+                {% if plan_categories.beginner %}
+                <option value="beginner">🥊 Beginner - Start Your Journey</option>
+                {% endif %}
+                {% if plan_categories.pro %}
+                <option value="pro">🏆 Pro Fighter - Advanced Training</option>
+                {% endif %}
+                {% if plan_categories.elite %}
+                <option value="elite">👑 Elite - Championship Level</option>
+                {% endif %}
+                {% if plan_categories.custom %}
+                <option value="custom">⭐ Custom - Tailored Programs</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <!-- Regular Plans Grid -->
+        <div id="plansContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {% for plan in plans %}
+            <div class="glass-card pricing-card fade-in-up plan-category-{{ plan.plan_type }} hidden" 
+                 style="transition-delay: {{ forloop.counter0 }}00ms">
+                {% if plan.is_popular %}
+                <div class="pricing-badge">
+                    <i class="fas fa-star mr-2"></i>
+                    POPULAR
+                </div>
+                {% endif %}
+                
+                <div class="feature-icon mx-auto mb-6" 
+                     style="background: {% if plan.plan_type == 'beginner' %}linear-gradient(135deg, #3b82f6, #60a5fa){% elif plan.plan_type == 'pro' %}var(--primary-gradient){% elif plan.plan_type == 'elite' %}linear-gradient(135deg, #f59e0b, #fbbf24){% else %}linear-gradient(135deg, #10b981, #34d399){% endif %}">
+                    <i class="fas fa-{% if plan.plan_type == 'beginner' %}user-graduate{% elif plan.plan_type == 'pro' %}trophy{% elif plan.plan_type == 'elite' %}crown{% else %}star{% endif %}"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-white mb-4">{{ plan.name }}</h3>
+                
+                <div class="mb-6">
+                    {% if plan.original_price %}
+                    <div class="text-lg text-gray-400 line-through mb-2">
+                        ${{ plan.original_price }}
+                    </div>
+                    {% endif %}
+                    <div class="price-amount">
+                        ${{ plan.price }}
+                    </div>
+                    <div class="price-period">/ {{ plan.get_duration_display_text }}</div>
+                </div>
+
+                <p class="text-gray-400 mb-6 leading-relaxed">
+                    {{ plan.description }}
+                </p>
+
+                <ul class="space-y-3 mb-8">
+                    {% for feature in plan.get_features_list %}
+                    <li class="flex items-center text-gray-300">
+                        <i class="fas fa-check text-red-400 mr-3"></i>
+                        {{ feature }}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <button class="modern-btn w-full register-btn" 
+                        style="{% if not plan.is_popular %}background: transparent; border: 2px solid rgba(255,255,255,0.2);{% endif %}"
+                        data-plan="{{ plan.name }}">
+                    <i class="fas fa-arrow-right mr-2"></i>
+                    Select Plan
+                </button>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <div class="feature-icon mx-auto mb-6">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">No Plans Available</h3>
+                <p class="text-gray-400">New training programs coming soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Registration Form Section -->
+<section class="modern-section bg-gradient-to-b from-gray-900 to-black hidden" id="registrationSection">
+    <div class="content-container mx-auto">
+        <div class="max-w-2xl mx-auto">
+            <div class="modern-form scale-in">
+                <h2 class="text-3xl font-bold text-center text-white mb-2">
+                    Join <span id="selectedPlanName" class="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent"></span>
+                </h2>
+                <p class="text-gray-400 text-center mb-8">
+                    Start your championship journey today
+                </p>
+                
+                <form id="registrationForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <input type="text" class="form-input" placeholder="First Name" required>
+                        </div>
+                        <div>
+                            <input type="text" class="form-input" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <input type="email" class="form-input" placeholder="Email Address" required>
+                    </div>
+                    
+                    <div>
+                        <input type="tel" class="form-input" placeholder="Phone Number" required>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-700">
+                        <div>
+                            <p class="text-gray-400 text-sm">Selected Plan</p>
+                            <p class="text-white font-semibold text-lg" id="formPlanName"></p>
+                        </div>
+                        <button type="submit" class="modern-btn">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Complete Registration
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+// Initialize animations
+document.addEventListener('DOMContentLoaded', function() {
+    // GSAP animations
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Fade in up animations
+    gsap.utils.toArray('.fade-in-up').forEach(el => {
+        gsap.fromTo(el, {
+            opacity: 0,
+            y: 30
+        }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: el,
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    });
+
+    // Scale in animations
+    gsap.utils.toArray('.scale-in').forEach(el => {
+        gsap.fromTo(el, {
+            opacity: 0,
+            scale: 0.9
+        }, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: "back.out(1.7)"
+        });
+    });
+
+    // Card hover effects
+    gsap.utils.toArray('.glass-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                y: -8,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                y: 0,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+    });
+});
+
+// Existing functionality (defensive guards added)
+const planCategory = document.getElementById('planCategory');
+const registrationSection = document.getElementById('registrationSection');
+const selectedPlanName = document.getElementById('selectedPlanName');
+const formPlanName = document.getElementById('formPlanName');
+const registerButtons = document.querySelectorAll('.register-btn');
+
+// Show plans based on selected category
+if (planCategory) {
+    planCategory.addEventListener('change', function() {
+        const selectedCategory = this.value;
+        
+        document.querySelectorAll('.plan-category-beginner, .plan-category-pro, .plan-category-elite, .plan-category-custom').forEach(card => {
+            card.classList.add('hidden');
+        });
+        
+        if (selectedCategory) {
+            document.querySelectorAll('.plan-category-' + selectedCategory).forEach(card => {
+                card.classList.remove('hidden');
+            });
+        }
+    });
+}
+
+// Registration button click
+if (registerButtons && registerButtons.length) {
+    registerButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const planName = this.getAttribute('data-plan') || '';
+            if (selectedPlanName) selectedPlanName.textContent = planName;
+            if (formPlanName) formPlanName.textContent = planName;
+            if (registrationSection) registrationSection.classList.remove('hidden');
+            
+            // Scroll to registration section
+            if (registrationSection) registrationSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+}
+
+// Form submission
+const registrationForm = document.getElementById('registrationForm');
+if (registrationForm) {
+    registrationForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Add success animation
+        gsap.to(this, {
+            scale: 0.95,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {
+                alert('Thank you for your registration! We will contact you shortly to complete your membership.');
+                this.reset();
+                if (registrationSection) registrationSection.classList.add('hidden');
+            }
+        });
+    });
+}
+</script>
+{% endblock %}

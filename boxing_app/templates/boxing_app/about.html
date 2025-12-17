@@ -1,0 +1,469 @@
+{% extends 'boxing_app/base.html' %}
+{% load static %}
+
+{% block page_title %}About Boxing Academy{% endblock %}
+
+{% block content %}
+<!-- Modern Hero Section -->
+<section class="min-h-screen flex items-center justify-center py-20 full-width relative overflow-hidden" data-aos="fade-in" data-aos-duration="1500">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-primary-black"></div>
+    </div>
+    
+    <!-- Animated Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-20 left-20 w-6 h-6 bg-accent-red rounded-full animate-pulse shadow-lg shadow-accent-red/50"></div>
+        <div class="absolute top-40 right-32 w-8 h-8 bg-light-red rounded-full animate-bounce shadow-xl shadow-accent-red/60"></div>
+        <div class="absolute bottom-32 left-1/4 w-4 h-4 bg-accent-red rounded-full animate-ping shadow-lg shadow-accent-red/40"></div>
+        <div class="absolute top-1/2 right-20 w-10 h-10 bg-light-red rounded-full animate-pulse shadow-2xl shadow-accent-red/70"></div>
+    </div>
+
+    <div class="content-container mx-auto text-center relative z-10">
+        <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 hero-title">
+                <span class="block text-white">OUR</span>
+                <span class="text-accent-red">LEGACY</span>
+            </h1>
+            <div class="w-32 h-1 bg-accent-red mx-auto mb-8 hero-line" data-aos="zoom-in" data-aos-delay="400"></div>
+        </div>
+        
+        <p class="text-xl text-gray-300 mb-12 max-w-4xl mx-auto hero-subtitle" data-aos="fade-up" data-aos-delay="600">
+            Forged in fire, built on discipline. The championship legacy that transforms ordinary fighters into extraordinary champions.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center hero-buttons" data-aos="fade-up" data-aos-delay="800">
+            <a href="#story" class="btn-pro text-lg px-12 py-5 transform transition-all duration-500 hover:scale-105">
+                <i class="fas fa-scroll mr-3"></i>
+                Our Story
+            </a>
+            <a href="#team" class="btn-pro btn-pro-outline text-lg px-12 py-5 transform transition-all duration-500 hover:scale-105">
+                <i class="fas fa-users mr-3"></i>
+                Meet The Team
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Main About Content -->
+<section id="story" class="section-black py-20 px-6 full-width relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-secondary-black"></div>
+
+    <div class="content-container mx-auto relative z-10 w-full">
+        {% if about %}
+        <!-- About Story -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+            <div class="relative" data-aos="fade-right" data-aos-delay="200">
+                <!-- Main Image with Glow -->
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-accent-red to-light-red rounded-3xl blur-2xl opacity-30 group-hover:opacity-50 transition-all duration-500"></div>
+                    <img src="{% static 'images/pexels-pixabay-163403.jpg' %}" alt="Boxing Training" 
+                         class="relative w-full h-96 object-cover rounded-2xl shadow-2xl transform transition-all duration-700 group-hover:scale-105 border-2 border-accent-red/20">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent rounded-2xl"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="w-12 h-1 bg-accent-red mb-2"></div>
+                        <p class="text-sm font-semibold">CHAMPIONSHIP TRAINING</p>
+                    </div>
+                </div>
+                
+                <!-- Floating Stats -->
+                <div class="absolute -bottom-8 -right-8 bg-gradient-to-br from-accent-red to-light-red p-6 rounded-2xl shadow-2xl transform rotate-6 hover:rotate-0 transition-all duration-500" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-white mb-1">15+</div>
+                        <div class="text-sm text-red-100 font-semibold">YEARS LEGACY</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-aos="fade-left" data-aos-delay="400">
+                <div class="card-pro group overflow-hidden transform-gpu hover:scale-105 transition-all duration-700 border-l-4 border-accent-red">
+                    <div class="card-content p-10 relative">
+                        <!-- Icon with Glow -->
+                        <div class="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-accent-red/50 relative">
+                            <i class="fas fa-history text-white text-3xl"></i>
+                            <div class="absolute inset-0 rounded-2xl border-2 border-accent-red/30 animate-pulse"></div>
+                        </div>
+                        
+                        <h2 class="text-4xl text-white mb-6 group-hover:text-accent-red transition-colors duration-300 text-center">
+                            {{ about.title }}
+                        </h2>
+                        
+                        <p class="text-gray-300 leading-relaxed text-lg mb-8 transform transition-all duration-500 group-hover:text-gray-200 text-center">
+                            {{ about.description }}
+                        </p>
+                        
+                        {% if about.established_date %}
+                        <div class="mt-8 p-6 bg-gradient-to-r from-accent-red/20 to-light-red/10 rounded-xl border-l-4 border-accent-red transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-accent-red/20">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-calendar-star text-accent-red text-2xl mr-4 transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"></i>
+                                <div>
+                                    <p class="text-accent-red text-sm font-semibold uppercase tracking-wider mb-1">ESTABLISHED</p>
+                                    <p class="text-white text-xl font-bold">{{ about.established_date }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission Section -->
+        {% if about.mission %}
+        <div class="mb-20" data-aos="fade-up" data-aos-delay="200">
+            <div class="card-pro group overflow-hidden transform-gpu hover:scale-105 transition-all duration-700 border-2 border-accent-red/30">
+                <div class="card-content p-16 text-center relative">
+                    <!-- Background Pattern -->
+                    <div class="absolute inset-0 opacity-5">
+                        <div class="absolute top-0 left-0 w-32 h-32 bg-accent-red rounded-full blur-2xl"></div>
+                        <div class="absolute bottom-0 right-0 w-48 h-48 bg-light-red rounded-full blur-2xl"></div>
+                    </div>
+                    
+                    <!-- Animated Icon -->
+                    <div class="w-28 h-28 mx-auto mb-10 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-accent-red/50 relative">
+                        <i class="fas fa-bullseye text-white text-4xl"></i>
+                        <div class="absolute inset-0 rounded-2xl border-2 border-accent-red/40 animate-ping"></div>
+                    </div>
+                    
+                    <h2 class="text-5xl text-white mb-10 group-hover:text-accent-red transition-colors duration-300">
+                        OUR MISSION
+                    </h2>
+                    
+                    <p class="text-gray-300 leading-relaxed text-2xl max-w-6xl mx-auto transform transition-all duration-500 group-hover:text-gray-200">
+                        {{ about.mission }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Placeholder -->
+        <div class="flex justify-center" data-aos="fade-up">
+            <div class="card-pro text-center py-20 w-full max-w-4xl border-2 border-accent-red/30">
+                <div class="card-content">
+                    <div class="w-32 h-32 mx-auto mb-10 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center animate-pulse shadow-2xl shadow-accent-red/50">
+                        <i class="fas fa-info-circle text-white text-5xl"></i>
+                    </div>
+                    <h2 class="text-5xl text-white mb-8">CHAMPION LEGACY</h2>
+                    <p class="text-gray-400 text-2xl max-w-2xl mx-auto">
+                        Our championship story is being crafted. Return soon to learn about our journey to becoming a premier boxing academy.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Team Section -->
+        <div id="team" class="mt-20">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 section-title">
+                    <span class="text-white">ELITE</span><br>
+                    <span class="text-accent-red">COACHING TEAM</span>
+                </h2>
+                <div class="w-32 h-1 bg-accent-red mx-auto mb-8"></div>
+                <p class="text-gray-400 text-xl max-w-3xl mx-auto section-subtitle">
+                    World-class trainers with championship experience dedicated to your success.
+                </p>
+            </div>
+            
+            <div class="cards-grid">
+                {% for trainer in trainers %}
+                <div class="card-pro group relative overflow-hidden transform-gpu hover:scale-105 transition-all duration-500 border-2 border-accent-red/20 hover:border-accent-red/50" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                    <!-- Trainer Badge -->
+                    <div class="absolute top-6 right-6 bg-gradient-to-r from-accent-red to-light-red text-white px-5 py-3 rounded-full text-sm font-bold transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 z-10 shadow-lg shadow-accent-red/50">
+                        <i class="fas fa-bolt mr-2"></i>
+                        PRO COACH
+                    </div>
+                    
+                    <div class="card-content p-8 text-center">
+                        <!-- Trainer Avatar with Glow -->
+                        {% if trainer.image %}
+                        <div class="w-32 h-32 mx-auto mb-8 rounded-2xl object-cover border-4 border-accent-red/30 transform transition-all duration-500 group-hover:scale-110 group-hover:border-accent-red group-hover:shadow-2xl group-hover:shadow-accent-red/40 overflow-hidden relative">
+                            <img src="{{ trainer.image.url }}" alt="{{ trainer.name }}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        </div>
+                        {% else %}
+                        <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-accent-red/50">
+                            <i class="fas fa-user-tie text-white text-4xl"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <h3 class="text-2xl text-white mb-4 group-hover:text-accent-red transition-colors duration-300">
+                            {{ trainer.name }}
+                        </h3>
+                        
+                        <p class="text-accent-red font-bold text-lg mb-5 transform transition-all duration-300 group-hover:scale-105">
+                            {{ trainer.role }}
+                        </p>
+                        
+                        {% if trainer.experience %}
+                        <div class="flex items-center justify-center mb-5 transform transition-all duration-300 group-hover:translate-x-2">
+                            <i class="fas fa-award text-accent-red text-xl mr-3"></i>
+                            <span class="text-gray-300 text-base font-semibold">{{ trainer.experience }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        {% if trainer.bio %}
+                        <p class="text-gray-400 text-base leading-relaxed mb-7 transform transition-all duration-500 group-hover:text-gray-300">
+                            {{ trainer.bio }}
+                        </p>
+                        {% endif %}
+                        
+                        <!-- Social Links -->
+                        <div class="flex justify-center space-x-4 pt-7 border-t border-accent-red/20">
+                            <a href="#" class="social-icon w-12 h-12 bg-gray-800 hover:bg-accent-red flex items-center justify-center rounded-xl transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-accent-red/40">
+                                <i class="fab fa-instagram text-white text-base"></i>
+                            </a>
+                            <a href="#" class="social-icon w-12 h-12 bg-gray-800 hover:bg-accent-red flex items-center justify-center rounded-xl transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-accent-red/40">
+                                <i class="fab fa-twitter text-white text-base"></i>
+                            </a>
+                            <a href="#" class="social-icon w-12 h-12 bg-gray-800 hover:bg-accent-red flex items-center justify-center rounded-xl transition-all duration-300 transform hover:scale-110 hover:shadow-lg hover:shadow-accent-red/40">
+                                <i class="fab fa-linkedin text-white text-base"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="card-pro col-span-full text-center py-20 w-full max-w-4xl border-2 border-accent-red/30" data-aos="fade-up">
+                    <div class="card-content">
+                        <div class="w-32 h-32 mx-auto mb-10 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center animate-spin-slow shadow-2xl shadow-accent-red/50">
+                            <i class="fas fa-users text-white text-5xl"></i>
+                        </div>
+                        <h3 class="text-5xl text-white mb-8">ELITE TEAM FINALIZING</h3>
+                        <p class="text-gray-400 text-2xl">Our professional coaching team profiles are being prepared.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+{% if about %}
+<section class="section-dark py-20 px-6 full-width relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-primary-black"></div>
+    
+    <!-- Animated Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-8 h-8 bg-accent-red rounded-full animate-pulse shadow-xl shadow-accent-red/60"></div>
+        <div class="absolute bottom-10 right-10 w-12 h-12 bg-light-red rounded-full animate-bounce shadow-2xl shadow-accent-red/70"></div>
+        <div class="absolute top-1/2 left-1/4 w-6 h-6 bg-accent-red rounded-full animate-ping shadow-lg shadow-accent-red/50"></div>
+    </div>
+
+    <div class="content-container mx-auto relative z-10 w-full">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-5xl md:text-6xl font-bold mb-8 section-title">
+                <span class="text-white">START YOUR</span><br>
+                <span class="text-accent-red">JOURNEY</span>
+            </h2>
+            <div class="w-32 h-1 bg-accent-red mx-auto mb-8"></div>
+            <p class="text-gray-300 text-xl max-w-3xl mx-auto section-subtitle">
+                Ready to train with champions? Contact us today and begin your transformation.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 justify-items-center">
+            <!-- Contact Info -->
+            <div class="card-pro group overflow-hidden transform-gpu hover:scale-105 transition-all duration-700 w-full max-w-lg border-2 border-accent-red/30" data-aos="fade-right" data-aos-delay="200">
+                <div class="card-content p-10">
+                    <div class="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-accent-red/50">
+                        <i class="fas fa-address-card text-white text-3xl"></i>
+                    </div>
+                    
+                    <h3 class="text-3xl text-center text-white mb-10 group-hover:text-accent-red transition-colors duration-300">
+                        CONTACT INFORMATION
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Email -->
+                        <div class="flex items-center p-6 bg-gradient-to-r from-accent-red/20 to-light-red/10 rounded-xl border-l-4 border-accent-red group hover:bg-accent-red/30 transition-all duration-500 transform hover:scale-105">
+                            <i class="fas fa-envelope text-accent-red text-2xl mr-6 transform transition-all duration-300 group-hover:scale-110"></i>
+                            <div>
+                                <p class="text-accent-red text-sm font-semibold uppercase tracking-wider mb-1">EMAIL</p>
+                                <p class="text-white text-xl font-bold">{{ about.contact_email|default:"train@boxingpro.com" }}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="flex items-center p-6 bg-gradient-to-r from-accent-red/20 to-light-red/10 rounded-xl border-l-4 border-accent-red group hover:bg-accent-red/30 transition-all duration-500 transform hover:scale-105">
+                            <i class="fas fa-phone text-accent-red text-2xl mr-6 transform transition-all duration-300 group-hover:scale-110"></i>
+                            <div>
+                                <p class="text-accent-red text-sm font-semibold uppercase tracking-wider mb-1">PHONE</p>
+                                <p class="text-white text-xl font-bold">{{ about.contact_phone|default:"+1 (555) 123-4567" }}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Address -->
+                        <div class="flex items-center p-6 bg-gradient-to-r from-accent-red/20 to-light-red/10 rounded-xl border-l-4 border-accent-red group hover:bg-accent-red/30 transition-all duration-500 transform hover:scale-105">
+                            <i class="fas fa-map-marker-alt text-accent-red text-2xl mr-6 transform transition-all duration-300 group-hover:scale-110"></i>
+                            <div>
+                                <p class="text-accent-red text-sm font-semibold uppercase tracking-wider mb-1">ACADEMY</p>
+                                <p class="text-white text-xl font-bold">{{ about.address|default:"123 Champion Street, Boxing City" }}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Hours -->
+                        <div class="flex items-center p-6 bg-gradient-to-r from-accent-red/20 to-light-red/10 rounded-xl border-l-4 border-accent-red group hover:bg-accent-red/30 transition-all duration-500 transform hover:scale-105">
+                            <i class="fas fa-clock text-accent-red text-2xl mr-6 transform transition-all duration-300 group-hover:scale-110"></i>
+                            <div>
+                                <p class="text-accent-red text-sm font-semibold uppercase tracking-wider mb-1">TRAINING HOURS</p>
+                                <p class="text-white text-xl font-bold">6:00 AM - 10:00 PM Daily</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visit CTA -->
+            <div class="card-pro group overflow-hidden transform-gpu hover:scale-105 transition-all duration-700 border-2 border-accent-red/50 w-full max-w-lg bg-gradient-to-br from-accent-red/10 to-light-red/5" data-aos="fade-left" data-aos-delay="400">
+                <div class="card-content p-10">
+                    <div class="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-accent-red to-light-red rounded-2xl flex items-center justify-center transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-2xl group-hover:shadow-accent-red/50">
+                        <i class="fas fa-door-open text-white text-3xl"></i>
+                    </div>
+                    
+                    <h3 class="text-3xl text-center text-white mb-8 group-hover:text-accent-red transition-colors duration-300">
+                        TOUR OUR FACILITY
+                    </h3>
+                    
+                    <p class="text-gray-300 text-center text-xl mb-10 transform transition-all duration-500 group-hover:text-gray-200 leading-relaxed">
+                        Experience our championship-grade training facilities and meet our elite coaching team. Your first professional session is complimentary.
+                    </p>
+                    
+                    <div class="text-center">
+                        <a href="{% url 'membership_plans' %}" class="btn-pro w-full transform transition-all duration-300 hover:scale-105 text-xl py-5">
+                            <i class="fas fa-calendar-check mr-3 text-2xl"></i>
+                            Schedule Facility Tour
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Additional CSS for animations -->
+<style>
+    @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .animate-spin-slow {
+        animation: spin-slow 3s linear infinite;
+    }
+    
+    /* Enhanced card hover effects */
+    .card-pro {
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+    
+    .card-pro:hover {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    }
+    
+    /* Card content layout */
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    /* Cards grid for consistent layout */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        width: 100%;
+    }
+    
+    /* Full width sections */
+    .full-width {
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        max-width: 100vw;
+    }
+    
+    /* Full screen sections */
+    .min-h-screen {
+        min-height: 100vh;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .card-pro {
+            min-height: 400px;
+        }
+    }
+    
+    @media (max-width: 640px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .card-pro {
+            min-height: 380px;
+        }
+    }
+</style>
+
+<!-- Enhanced JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Enhanced card hover effects
+        gsap.utils.toArray('.card-pro').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateY = (x - centerX) / 25;
+                const rotateX = (centerY - y) / 25;
+                
+                gsap.to(card, {
+                    rotationY: rotateY,
+                    rotationX: rotateX,
+                    transformPerspective: 1000,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotationY: 0,
+                    rotationX: 0,
+                    duration: 0.5,
+                    ease: "power3.out"
+                });
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

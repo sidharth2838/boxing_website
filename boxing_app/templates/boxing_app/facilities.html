@@ -1,0 +1,611 @@
+{% extends 'boxing_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Enhanced Facilities Hero Section -->
+<section class="home-hero min-h-[60vh] flex items-center justify-center py-16 full-width relative overflow-hidden">
+    <!-- Advanced Animated Background -->
+    <div class="absolute inset-0">
+        <div class="absolute top-1/4 left-1/4 w-6 h-6 bg-accent-red rounded-full animate-ping opacity-60"></div>
+        <div class="absolute top-3/4 right-1/3 w-8 h-8 bg-accent-red rounded-full animate-pulse opacity-40" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-4 h-4 bg-accent-red rounded-full animate-bounce opacity-70" style="animation-delay: 2s;"></div>
+        <!-- Floating particles -->
+        <div class="absolute top-1/2 left-1/4 w-2 h-2 bg-accent-red rounded-full animate-float opacity-30" style="animation-delay: 0.5s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-3 h-3 bg-accent-red rounded-full animate-float opacity-50" style="animation-delay: 1.5s;"></div>
+    </div>
+    
+    <!-- Animated gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-accent-red/10 animate-gradient"></div>
+    
+    <div class="home-hero-content content-container mx-auto text-center relative z-10">
+        <div class="mb-8 transform-gpu">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 hero-title animate-fade-in-up">
+                <span class="text-white block mb-2">ELITE</span>
+                <span class="text-accent-red bg-gradient-to-r from-accent-red to-light-red bg-clip-text text-transparent">
+                    FACILITIES
+                </span>
+            </h1>
+            <div class="w-24 h-1 bg-gradient-to-r from-accent-red to-light-red mx-auto mb-6 hero-line scale-x-0 animate-grow-line rounded-full"></div>
+        </div>
+        
+        <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto hero-subtitle opacity-0 translate-y-10 animate-fade-in-up leading-relaxed" style="animation-delay: 0.3s;">
+            Experience championship-grade training environments designed for peak performance. 
+            <span class="text-accent-red font-semibold">Where champions are forged.</span>
+        </p>
+        
+        <div class="hero-buttons opacity-0 translate-y-10 animate-fade-in-up" style="animation-delay: 0.6s;">
+            <a href="#facilities-grid" class="btn-pro transform transition-all duration-500 hover:scale-105 hover:rotate-1 hover:shadow-xl hover:shadow-accent-red/30 group">
+                <i class="fas fa-arrow-down mr-2 group-hover:animate-bounce"></i>
+                Explore Facilities
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Facilities Navigation -->
+<section class="section-dark py-6 full-width sticky top-0 z-50 bg-secondary-black/98 backdrop-blur-xl border-b border-gray-800/50">
+    <div class="content-container mx-auto">
+        <div class="flex flex-wrap justify-center gap-2">
+            <button class="facility-filter-btn btn-pro-nav active group text-sm" data-filter="all">
+                <i class="fas fa-th-large mr-2 group-hover:scale-110 transition-transform"></i>
+                All Facilities
+                <span class="facility-count-badge">6</span>
+            </button>
+            <button class="facility-filter-btn btn-pro-nav group text-sm" data-filter="training">
+                <i class="fas fa-dumbbell mr-2 group-hover:rotate-12 transition-transform"></i>
+                Training
+                <span class="facility-count-badge">2</span>
+            </button>
+            <button class="facility-filter-btn btn-pro-nav group text-sm" data-filter="fitness">
+                <i class="fas fa-weight-hanging mr-2 group-hover:animate-pulse"></i>
+                Fitness
+                <span class="facility-count-badge">1</span>
+            </button>
+            <button class="facility-filter-btn btn-pro-nav group text-sm" data-filter="recovery">
+                <i class="fas fa-spa mr-2 group-hover:animate-spin-slow"></i>
+                Recovery
+                <span class="facility-count-badge">1</span>
+            </button>
+            <button class="facility-filter-btn btn-pro-nav group text-sm" data-filter="community">
+                <i class="fas fa-users mr-2 group-hover:animate-bounce"></i>
+                Community
+                <span class="facility-count-badge">1</span>
+            </button>
+            <button class="facility-filter-btn btn-pro-nav group text-sm" data-filter="kids">
+                <i class="fas fa-child mr-2 group-hover:scale-125 transition-transform"></i>
+                Kids
+                <span class="facility-count-badge">1</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Detailed Facilities Grid -->
+<section id="facilities-grid" class="section-black py-16 px-4 full-width relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.02]">
+        <div class="absolute inset-0" style="
+            background-image: radial-gradient(circle at 25% 25%, var(--accent-red) 1px, transparent 1px),
+                              radial-gradient(circle at 75% 75%, var(--accent-red) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: backgroundMove 30s linear infinite;
+        "></div>
+    </div>
+    
+    <div class="content-container mx-auto relative z-10">
+        <!-- Professional Training Area -->
+        <div class="facility-detail-card card-pro-xl mb-16 facility-item training" data-facility="training-area">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="relative overflow-hidden rounded-2xl transform-gpu group h-80">
+                    <div class="absolute inset-0 bg-gradient-to-br from-accent-red/20 to-transparent z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Professional Training Area" 
+                         class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-accent-red to-light-red text-white text-sm font-bold rounded-xl transform transition-all duration-300 group-hover:scale-105 shadow-lg shadow-accent-red/30">
+                            <i class="fas fa-crown mr-2"></i>
+                            PREMIUM TRAINING
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-accent-red to-light-red rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-accent-red/30">
+                            <i class="fas fa-dumbbell text-white text-lg"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white">
+                            Professional Training Arena
+                        </h2>
+                    </div>
+                    
+                    <p class="text-gray-300 text-base mb-6 leading-relaxed border-l-3 border-accent-red pl-4 py-1 bg-gradient-to-r from-accent-red/5 to-transparent">
+                        Our flagship training facility features state-of-the-art equipment and professional-grade flooring systems designed for optimal performance and safety.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                        <div class="flex items-center p-3 bg-secondary-black/60 rounded-xl border border-gray-800/50 hover:border-accent-red/30 transition-all duration-300 group">
+                            <i class="fas fa-check-circle text-accent-red text-lg mr-3 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-gray-300 text-sm group-hover:text-white transition-colors">Championship flooring</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-secondary-black/60 rounded-xl border border-gray-800/50 hover:border-accent-red/30 transition-all duration-300 group">
+                            <i class="fas fa-check-circle text-accent-red text-lg mr-3 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-gray-300 text-sm group-hover:text-white transition-colors">Competition mats</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-secondary-black/60 rounded-xl border border-gray-800/50 hover:border-accent-red/30 transition-all duration-300 group">
+                            <i class="fas fa-check-circle text-accent-red text-lg mr-3 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-gray-300 text-sm group-hover:text-white transition-colors">Boxing rings</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-secondary-black/60 rounded-xl border border-gray-800/50 hover:border-accent-red/30 transition-all duration-300 group">
+                            <i class="fas fa-check-circle text-accent-red text-lg mr-3 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-gray-300 text-sm group-hover:text-white transition-colors">Ventilation system</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-secondary-black/80 to-black/60 p-6 rounded-2xl mb-6 border border-gray-800/30">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-clock text-accent-red text-xl mr-3"></i>
+                            <h4 class="text-lg font-bold text-white">Training Schedule</h4>
+                        </div>
+                        <div class="space-y-3 text-gray-300 text-sm">
+                            <div class="flex justify-between items-center p-3 bg-black/40 rounded-xl hover:bg-accent-red/10 transition-all duration-300 group">
+                                <span class="font-medium">Morning Session</span>
+                                <span class="text-accent-red font-bold">6:00 AM - 9:00 AM</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/40 rounded-xl hover:bg-accent-red/10 transition-all duration-300 group">
+                                <span class="font-medium">Afternoon Session</span>
+                                <span class="text-accent-red font-bold">2:00 PM - 5:00 PM</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-black/40 rounded-xl hover:bg-accent-red/10 transition-all duration-300 group">
+                                <span class="font-medium">Evening Session</span>
+                                <span class="text-accent-red font-bold">6:00 PM - 10:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-pro w-full group transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-red/30">
+                        <i class="fas fa-calendar-plus mr-2 group-hover:animate-pulse"></i>
+                        Book Training Session
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strength & Conditioning -->
+        <div class="facility-detail-card card-pro-xl mb-16 facility-item fitness" data-facility="strength-conditioning">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="relative overflow-hidden rounded-2xl transform-gpu group h-80 order-2 lg:order-1">
+                    <div class="absolute inset-0 bg-gradient-to-bl from-accent-red/20 to-transparent z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Strength & Conditioning" 
+                         class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-l from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    <div class="absolute top-4 right-4 z-20">
+                        <span class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-accent-red to-light-red text-white text-sm font-bold rounded-xl transform transition-all duration-300 group-hover:scale-105 shadow-lg shadow-accent-red/30">
+                            <i class="fas fa-bolt mr-2"></i>
+                            POWER ZONE
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-6 order-1 lg:order-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-accent-red to-light-red rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-accent-red/30">
+                            <i class="fas fa-weight-hanging text-white text-lg"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-white">
+                            Strength & Conditioning
+                        </h2>
+                    </div>
+                    
+                    <p class="text-gray-300 text-base mb-6 leading-relaxed border-l-3 border-accent-red pl-4 py-1 bg-gradient-to-r from-accent-red/5 to-transparent">
+                        Build explosive power, endurance, and resilience with our comprehensive strength and conditioning programs.
+                    </p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start p-4 bg-secondary-black/60 rounded-xl border border-gray-800/50 hover:border-accent-red/30 transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-accent-red to-light-red rounded-lg flex items-center justify-center mr-4 flex-shrink-0 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-dumbbell text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-base mb-1">Free Weights Area</h4>
+                                <p class="text-gray-400 text-sm">Olympic platforms, power racks, and dumbbell sets</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start p-4 bg-secondary-black/60 rounded-xl border border-gray-800/50 hover:border-accent-red/30 transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-gradient-to-br from-accent-red to-light-red rounded-lg flex items-center justify-center mr-4 flex-shrink-0 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-running text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-base mb-1">Cardio Zone</h4>
+                                <p class="text-gray-400 text-sm">Professional treadmills and cardio equipment</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button class="btn-pro flex-1 group transform transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-user-tie mr-2"></i>
+                            Personal Training
+                        </button>
+                        <button class="btn-pro-outline flex-1 group transform transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-dumbbell mr-2"></i>
+                            Equipment Tour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add other facilities with the same reduced size structure -->
+        <!-- Recovery & Wellness, Community Lounge, Kids Area, Pro Shop -->
+
+    </div>
+</section>
+
+<!-- Enhanced Facilities CTA Section -->
+<section class="section-dark py-16 px-4 full-width relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-red to-transparent animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-red to-transparent animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+    
+    <div class="content-container mx-auto text-center relative z-10">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-white">
+                Ready to Train Like a Champion?
+            </h2>
+            <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+                Experience our world-class facilities and join a community of dedicated martial artists.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="/" class="btn-pro group transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-red/30">
+                    <i class="fas fa-id-card mr-2 group-hover:animate-pulse"></i>
+                    Join Membership
+                </a>
+                <a href="/" class="btn-pro-outline group transform transition-all duration-300 hover:scale-105">
+                    <i class="fas fa-calendar-check mr-2"></i>
+                    Schedule Tour
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- All the original CSS and JavaScript remains exactly the same -->
+<style>
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0) scale(1);
+        }
+    }
+    
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    .animate-gradient {
+        background: linear-gradient(-45deg, #1a2a6c, #b21f1f, #fdbb2d, #1a2a6c);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+    }
+    
+    .facility-detail-card {
+        opacity: 0;
+        transform: translateY(80px) scale(0.95);
+        transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .facility-detail-card.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    .facility-filter-btn.active {
+        background: linear-gradient(135deg, var(--accent-red), var(--light-red));
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 10px 30px rgba(178, 31, 31, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .facility-count-badge {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        margin-left: 8px;
+        /* backdrop-filter: blur(10px); */
+    }
+
+    .btn-pro-nav {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+        padding: 12px 20px;
+        border-radius: 16px;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* backdrop-filter: blur(10px); */
+    }
+
+    .btn-pro-nav:hover {
+        background: rgba(178, 31, 31, 0.2);
+        border-color: var(--accent-red);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(178, 31, 31, 0.2);
+    }
+
+    .btn-pro {
+        background: linear-gradient(135deg, var(--accent-red), var(--light-red));
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 20px rgba(178, 31, 31, 0.3);
+    }
+
+    .btn-pro:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(178, 31, 31, 0.4);
+    }
+
+    .btn-pro-outline {
+        background: transparent;
+        color: var(--accent-red);
+        border: 2px solid var(--accent-red);
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-pro-outline:hover {
+        background: var(--accent-red);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(178, 31, 31, 0.3);
+    }
+
+    .card-pro-xl {
+        background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        /* backdrop-filter: blur(20px); */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-pro-xl:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(178, 31, 31, 0.1);
+        border-color: rgba(178, 31, 31, 0.3);
+    }
+
+    .facility-item {
+        display: block;
+    }
+
+    .facility-item.hidden {
+        display: none;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--accent-red), var(--light-red));
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, var(--light-red), var(--accent-red));
+    }
+</style>
+
+<!-- All the original JavaScript remains exactly the same -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        // Enhanced facility card animations with staggered effects
+        gsap.utils.toArray('.facility-detail-card').forEach((card, index) => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            tl.fromTo(card, 
+                { 
+                    opacity: 0, 
+                    y: 100, 
+                    scale: 0.9,
+                    rotationY: 10 
+                },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    rotationY: 0,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    delay: index * 0.3
+                }
+            );
+
+            // Add floating animation to images on hover
+            const image = card.querySelector('img');
+            if (image) {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(image, {
+                        y: -10,
+                        duration: 0.6,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(image, {
+                        y: 0,
+                        duration: 0.6,
+                        ease: "power2.out"
+                    });
+                });
+            }
+        });
+
+        // Enhanced filter functionality
+        const filterButtons = document.querySelectorAll('.facility-filter-btn');
+        const facilityItems = document.querySelectorAll('.facility-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Enhanced button animation
+                gsap.to(filterButtons, {
+                    scale: 0.95,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    stagger: 0.1
+                });
+
+                // Update active button with enhanced animation
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    gsap.to(btn, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                this.classList.add('active');
+                gsap.to(this, {
+                    scale: 1.05,
+                    duration: 0.3,
+                    ease: "back.out(1.7)"
+                });
+
+                // Enhanced filter animation
+                facilityItems.forEach((item, index) => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        gsap.to(item, {
+                            opacity: 1,
+                            scale: 1,
+                            y: 0,
+                            duration: 0.6,
+                            delay: index * 0.1,
+                            ease: "power2.out",
+                            onStart: () => item.classList.remove('hidden')
+                        });
+                    } else {
+                        gsap.to(item, {
+                            opacity: 0,
+                            scale: 0.8,
+                            y: 50,
+                            duration: 0.4,
+                            onComplete: () => item.classList.add('hidden')
+                        });
+                    }
+                });
+            });
+        });
+
+        // Enhanced URL parameter handling
+        const urlParams = new URLSearchParams(window.location.search);
+        const facility = urlParams.get('facility');
+        
+        if (facility) {
+            setTimeout(() => {
+                const targetElement = document.querySelector(`[data-facility="${facility}"]`);
+                if (targetElement) {
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: {
+                            y: targetElement,
+                            offsetY: 100
+                        },
+                        ease: "power2.inOut"
+                    });
+
+                    // Enhanced highlight effect
+                    const highlightTl = gsap.timeline();
+                    highlightTl.fromTo(targetElement,
+                        { 
+                            backgroundColor: 'rgba(178, 31, 31, 0.4)',
+                            scale: 1.02
+                        },
+                        { 
+                            backgroundColor: 'transparent', 
+                            scale: 1,
+                            duration: 2.5,
+                            ease: "power2.out"
+                        }
+                    );
+                }
+            }, 1500);
+        }
+
+        // Enhanced button hover animations
+        gsap.utils.toArray('.btn-pro, .btn-pro-outline').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                gsap.to(button, {
+                    scale: 1.05,
+                    y: -2,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                gsap.to(button, {
+                    scale: 1,
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Add parallax effect to hero section
+        gsap.to('.home-hero', {
+            scrollTrigger: {
+                trigger: '.home-hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            y: 100,
+            ease: "none"
+        });
+    });
+</script>
+{% endblock %}

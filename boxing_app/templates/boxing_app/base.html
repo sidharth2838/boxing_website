@@ -1,0 +1,1220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ header.title }}{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-black: #000000;
+            --secondary-black: #1a1a1a;
+            --accent-red: #dc2626;
+            --light-red: #ef4444;
+            --text-white: #ffffff;
+            --text-gray: #8c8c8c;
+            --border-color: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-black);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Full width layout */
+        .full-width {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            max-width: 100vw;
+        }
+        
+        .content-container {
+            width: 100%;
+            max-width: 100%;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .content-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .content-container {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
+        
+        /* Background Image for Home Page */
+        .home-hero {
+            background-image: url('{% static "images/pexels-clickerhappy-3797.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .home-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        
+        .home-hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        
+        /* Professional Navigation */
+        .nav-professional {
+            background: var(--primary-black);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 100vw;
+            left: 0;
+            right: 0;
+        }
+        
+        .nav-link {
+            color: var(--text-white);
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            transform: translateZ(0);
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-red);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-red);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link:hover::before {
+            width: 100%;
+        }
+        
+        /* Professional Cards - Consistent sizing */
+        .card-pro {
+            background: var(--secondary-black);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-pro:hover {
+            border-color: var(--accent-red);
+            transform: translateY(-8px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.2);
+        }
+        
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+        
+        /* Professional Buttons */
+        .btn-pro {
+            background: linear-gradient(135deg, var(--accent-red), var(--light-red));
+            color: var(--text-white);
+            padding: 14px 36px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-pro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .btn-pro:hover {
+            background: linear-gradient(135deg, var(--light-red), var(--accent-red));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+        }
+        
+        .btn-pro:hover::before {
+            left: 100%;
+        }
+        
+        .btn-pro-outline {
+            background: transparent;
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+        
+        .btn-pro-outline:hover {
+            background: var(--accent-red);
+            color: var(--text-white);
+            transform: translateY(-3px) scale(1.05);
+        }
+        
+        /* Section Styles */
+        .section-black {
+            background: var(--primary-black);
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-dark {
+            background: var(--secondary-black);
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Text Styles */
+        .text-accent {
+            color: var(--accent-red);
+        }
+        
+        .text-muted {
+            color: var(--text-gray);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: var(--primary-black);
+            border-left: 1px solid var(--border-color);
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        /* Enhanced Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        
+        @keyframes growLine {
+            to {
+                transform: scaleX(1);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.8); }
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        
+        .animate-grow-line {
+            animation: growLine 1s ease-out 0.5s forwards;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .message-slide-in {
+            animation: messageSlideIn 0.3s ease-out;
+        }
+        
+        .transform-gpu {
+            transform: translate3d(0, 0, 0);
+        }
+        
+        /* Logo Animation */
+        .logo-container {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        /* Stats Number Animation */
+        .stats-number {
+            transition: all 0.4s ease;
+        }
+        
+        .stats-number:hover {
+            transform: scale(1.2);
+            color: var(--light-red);
+        }
+        
+        /* Social Icon Animations */
+        .social-icon {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.2) rotate(12deg);
+            background: var(--accent-red) !important;
+        }
+        
+        /* Footer Link Animations */
+        .footer-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .footer-link::before {
+            content: '»';
+            position: absolute;
+            left: -15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent-red);
+            transform: translateX(5px);
+        }
+        
+        .footer-link:hover::before {
+            opacity: 1;
+            left: -10px;
+        }
+        
+        /* Grid alignment for consistent card layout */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        
+        /* Ensure all sections take full viewport height */
+        .full-screen-section {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Main content area */
+        main {
+            width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        /* Footer full width */
+        footer {
+            width: 100vw;
+            left: 0;
+            right: 0;
+        }
+        
+        /* Cart badge styling */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Icon navigation styling */
+        .nav-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: var(--text-white);
+        }
+        
+        .nav-icon:hover {
+            background-color: rgba(220, 38, 38, 0.2);
+            color: var(--accent-red);
+            transform: translateY(-2px);
+        }
+        
+        /* Navigation icons container */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Custom scrollbar for chatbot */
+        .chatbot-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 10px;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-thumb:hover {
+            background: #ef4444;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-black': '#000000',
+                        'secondary-black': '#1a1a1a',
+                        'accent-red': '#dc2626',
+                        'light-red': '#ef4444',
+                        'border-gray': '#333333',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-primary-black text-white">
+    <!-- Updated Navigation -->
+    <nav class="nav-professional fixed w-full z-50 py-4 px-6 lg:px-8 full-width transform-gpu">
+        <div class="content-container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="flex items-center space-x-3 logo-container">
+                <div class="w-10 h-10 bg-accent-red rounded flex items-center justify-center">
+                    <i class="fas fa-fist-raised text-white text-lg"></i>
+                </div>
+                <div class="text-left">
+                    <span class="text-xl font-bold text-white">
+                        BOXING<span class="text-accent-red">PRO</span>
+                    </span>
+                    <span class="text-xs text-gray-400 block">
+                        ELITE TRAINING
+                    </span>
+                </div>
+            </a>
+
+            <!-- DESKTOP MENU (Dynamic) -->
+            <div class="hidden lg:flex items-center space-x-6">
+                {% if request.user.is_authenticated %}
+                    <!-- FULL MENU FOR LOGGED-IN USERS -->
+                    <a href="{% url 'home' %}" class="nav-link py-2 px-4">Home</a>
+
+                    <!-- About Dropdown -->
+                    <div class="relative group">
+                        <a class="nav-link py-2 px-4 flex items-center cursor-pointer">
+                            About
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </a>
+                        <div class="absolute top-full left-0 mt-2 w-56 bg-secondary-black border border-border-gray rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                            <div class="py-2">
+                                <a href="{% url 'about' %}" class="block px-6 py-3 hover:bg-accent-red">About Us</a>
+                                <a href="{% url 'services' %}" class="block px-6 py-3 hover:bg-accent-red">Services</a>
+                                <a href="{% url 'training_schedule' %}" class="block px-6 py-3 hover:bg-accent-red">Training Schedule</a>
+                                <a href="{% url 'membership_plans' %}" class="block px-6 py-3 hover:bg-accent-red">Membership Plans</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'shop' %}" class="nav-link py-2 px-4">Shop</a>
+
+                    <!-- Cart Icon -->
+                    <a href="{% url 'cart' %}" class="nav-icon relative">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                        {% with cart=request.session.cart %}
+                            {% if cart %}
+                                {% load custom_filters %}
+                                {% with total_items=cart|sum_values %}
+                                    {% if total_items > 0 %}
+                                        <span class="cart-badge">{{ total_items }}</span>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %}
+                        {% endwith %}
+                    </a>
+
+                    <!-- BMI -->
+                    <a href="{% url 'bmi_calculator' %}" class="nav-icon">
+                        <i class="fas fa-calculator text-lg"></i>
+                    </a>
+
+                    <!-- Reach Out -->
+                    <a href="{% url 'contact' %}" class="nav-link py-2 px-4">Reach Out</a>
+
+                    <!-- LOGOUT BUTTON (INSIDE MENU) -->
+                    <a href="{% url 'logout' %}" class="nav-link py-2 px-4 text-accent-red">Logout</a>
+
+                {% else %}
+                    <!-- LIMITED MENU FOR GUESTS -->
+                    <a href="{% url 'home' %}" class="nav-link py-2 px-4">Home</a>
+                    <a href="{% url 'about' %}" class="nav-link py-2 px-4">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link py-2 px-4">Reach Out</a>
+
+                    <!-- LOGIN BUTTON (INSIDE MENU) -->
+                    <a href="{% url 'login' %}" class="nav-link py-2 px-4 text-accent-red">Login</a>
+                {% endif %}
+            </div>
+
+            <!-- MOBILE MENU BUTTON -->
+            <button id="mobileMenuButton" class="lg:hidden text-white">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-80 z-50 lg:hidden">
+            <div class="p-6 h-full flex flex-col">
+                <!-- Close Button -->
+                <div class="flex justify-end mb-6">
+                    <button id="closeMobileMenu" class="text-white text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                {% if request.user.is_authenticated %}
+                    <!-- FULL MOBILE MENU -->
+                    <a href="{% url 'home' %}" class="block text-white text-lg py-2 hover:text-accent-red transition-colors">Home</a>
+
+                    <p class="text-accent-red text-lg mt-4 mb-2">About</p>
+                    <div class="ml-4 space-y-2">
+                        <a href="{% url 'about' %}" class="block text-white hover:text-accent-red transition-colors">About Us</a>
+                        <a href="{% url 'services' %}" class="block text-white hover:text-accent-red transition-colors">Services</a>
+                        <a href="{% url 'training_schedule' %}" class="block text-white hover:text-accent-red transition-colors">Training Schedule</a>
+                        <a href="{% url 'membership_plans' %}" class="block text-white hover:text-accent-red transition-colors">Membership Plans</a>
+                    </div>
+
+                    <a href="{% url 'shop' %}" class="block text-white text-lg py-2 mt-3 hover:text-accent-red transition-colors">Shop</a>
+                    <a href="{% url 'cart' %}" class="block text-white text-lg py-2 hover:text-accent-red transition-colors">Cart</a>
+                    <a href="{% url 'bmi_calculator' %}" class="block text-white text-lg py-2 hover:text-accent-red transition-colors">BMI Calculator</a>
+
+                    <a href="{% url 'contact' %}" class="btn-pro w-full text-center mt-6">Reach Out</a>
+
+                    <!-- LOGOUT -->
+                    <a href="{% url 'logout' %}" class="btn-pro btn-pro-outline w-full text-center mt-4">Logout</a>
+
+                {% else %}
+                    <!-- LIMITED MOBILE MENU -->
+                    <a href="{% url 'home' %}" class="block text-white text-lg py-2 hover:text-accent-red transition-colors">Home</a>
+                    <a href="{% url 'about' %}" class="block text-white text-lg py-2 hover:text-accent-red transition-colors">About</a>
+                    <a href="{% url 'contact' %}" class="block text-white text-lg py-2 hover:text-accent-red transition-colors">Reach Out</a>
+
+                    <!-- LOGIN -->
+                    <a href="{% url 'login' %}" class="btn-pro btn-pro-outline w-full text-center mt-4">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16 full-width">
+        {% block content %}
+        <!-- Home page will have special header with background image, other pages won't -->
+        {% if request.path == '/' %}
+        <!-- Enhanced Professional Hero Section with Background Image -->
+        <section class="home-hero full-screen-section full-width relative overflow-hidden">
+            <!-- Animated Background Elements -->
+            <div class="absolute inset-0">
+                <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-accent-red rounded-full animate-ping"></div>
+                <div class="absolute top-3/4 right-1/3 w-6 h-6 bg-accent-red rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/3 left-1/3 w-3 h-3 bg-accent-red rounded-full animate-bounce" style="animation-delay: 2s;"></div>
+            </div>
+            
+            <div class="home-hero-content content-container mx-auto text-center relative z-10">
+                <div class="mb-8 transform-gpu">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 hero-title animate-fade-in-up">
+                        IT'S ALL ABOUT WHAT<br>
+                        <span class="text-accent-red">YOU CAN ACHIEVE</span>
+                    </h1>
+                    <div class="w-24 h-1 bg-accent-red mx-auto mb-6 hero-line scale-x-0 animate-grow-line"></div>
+                </div>
+                
+                <p class="text-xl text-gray-300 mb-12 max-w-3xl mx-auto hero-subtitle opacity-0 translate-y-10 animate-fade-in-up" style="animation-delay: 0.3s;">
+                    Empower yourself to make the changes you need to make. Elite boxing training for champions.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center hero-buttons opacity-0 translate-y-10 animate-fade-in-up" style="animation-delay: 0.6s;">
+                    <a href="{% url 'training_schedule' %}" class="btn-pro transform transition-all duration-500 hover:scale-110 hover:rotate-1 hover:shadow-2xl hover:shadow-accent-red/30">
+                        <i class="fas fa-fist-raised mr-2 animate-pulse"></i>
+                        Start Training
+                    </a>
+                    <a href="{% url 'about' %}" class="btn-pro btn-pro-outline transform transition-all duration-500 hover:scale-110 hover:-rotate-1 hover:shadow-2xl hover:shadow-accent-red/20">
+                        <i class="fas fa-arrow-right mr-2 group-hover:translate-x-1 transition-transform"></i>
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <!-- Enhanced Other pages header -->
+        <section class="section-dark full-screen-section full-width relative overflow-hidden">
+            <!-- Animated Background -->
+            <div class="absolute inset-0 opacity-5">
+                <div class="absolute top-0 left-0 w-32 h-32 bg-accent-red rounded-full blur-xl animate-float"></div>
+                <div class="absolute bottom-0 right-0 w-48 h-48 bg-accent-red rounded-full blur-xl animate-float" style="animation-delay: 2s;"></div>
+            </div>
+            
+            <div class="content-container mx-auto relative z-10 w-full">
+                <div class="opacity-0 translate-y-10 w-full text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-center mb-4 page-title">
+                        {% block page_title %}{{ header.title }}{% endblock %}
+                    </h1>
+                    {% if header.subtitle %}
+                    <p class="text-lg text-gray-300 text-center max-w-3xl mx-auto page-subtitle">
+                        {{ header.subtitle }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        
+        {% endblock %}
+    </main>
+
+    <!-- Chatbot Toggle Button -->
+    <div id="chatbot-btn"
+         class="fixed bottom-6 right-6 bg-accent-red text-white w-14 h-14 rounded-full 
+                flex items-center justify-center shadow-xl cursor-pointer hover:bg-light-red 
+                transition-all duration-300 z-50 animate-pulse-glow"
+         onclick="openChatbot()">
+        <i class="fas fa-robot text-2xl"></i>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="hidden fixed inset-0 z-50">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black bg-opacity-50" id="chatbot-backdrop"></div>
+        
+        <!-- Chatbot Box -->
+        <div class="absolute bottom-24 right-6 w-80 bg-secondary-black border border-border-gray 
+                    rounded-xl shadow-2xl transform-gpu animate-fade-in-up">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-center p-4 border-b border-border-gray">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-accent-red to-light-red rounded-full 
+                                flex items-center justify-center animate-pulse-glow">
+                        <i class="fas fa-robot text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">BoxingBot</h3>
+                        <p class="text-xs text-green-400">Online • Boxing Expert</p>
+                    </div>
+                </div>
+                <button id="close-chatbot" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="chatbot-messages" class="h-72 overflow-y-auto p-4 space-y-3 bg-primary-black chatbot-messages">
+                <!-- Welcome Message -->
+                <div class="flex justify-start">
+                    <div class="max-w-[85%]">
+                        <div class="bg-secondary-black text-white p-3 rounded-lg rounded-tl-none border border-border-gray">
+                            <p class="text-sm">👊 Welcome to BoxingBot! I'm here to help with all your boxing questions - training, techniques, rules, nutrition, and more!</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 block">Just now</span>
+                    </div>
+                </div>
+
+                <!-- Quick Questions -->
+                <div class="flex justify-start">
+                    <div class="max-w-[85%]">
+                        <div class="bg-secondary-black text-white p-3 rounded-lg rounded-tl-none border border-border-gray">
+                            <p class="text-sm mb-2">Quick questions you can ask:</p>
+                            <div class="space-y-1">
+                                <button class="quick-question w-full text-left text-xs text-accent-red hover:text-light-red transition-colors" 
+                                        data-question="What are the basic boxing stances?">
+                                    • Basic boxing stances
+                                </button>
+                                <button class="quick-question w-full text-left text-xs text-accent-red hover:text-light-red transition-colors" 
+                                        data-question="How to improve my punching power?">
+                                    • Improving punching power
+                                </button>
+                                <button class="quick-question w-full text-left text-xs text-accent-red hover:text-light-red transition-colors" 
+                                        data-question="What equipment do I need for boxing?">
+                                    • Essential boxing equipment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="hidden px-4 py-2">
+                <div class="flex items-center space-x-2 text-gray-400">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-accent-red rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-accent-red rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-accent-red rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                    <span class="text-xs">BoxingBot is typing...</span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 border-t border-border-gray">
+                <div class="flex space-x-2">
+                    <input type="text" id="chatbot-input" 
+                           class="flex-1 bg-primary-black border border-border-gray text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent-red transition-colors"
+                           placeholder="Ask about boxing techniques, training, rules..." 
+                           maxlength="200">
+                    <button id="send-message" 
+                            class="bg-accent-red text-white w-12 h-12 rounded-lg flex items-center justify-center hover:bg-light-red transition-colors transform hover:scale-105">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-2 text-center">
+                    I specialize in boxing-related questions only
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Professional Footer -->
+    <footer class="section-dark border-t border-border-gray py-12 px-6 full-width relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 left-10 w-20 h-20 bg-accent-red rounded-full blur-xl animate-float"></div>
+            <div class="absolute bottom-10 right-10 w-32 h-32 bg-accent-red rounded-full blur-xl animate-float" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="content-container mx-auto relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="opacity-0 translate-y-10">
+                    <div class="flex items-center space-x-3 mb-6 transform transition-all duration-500 hover:scale-105">
+                        <div class="w-10 h-10 bg-accent-red rounded flex items-center justify-center transform transition-all duration-500 hover:scale-110 hover:rotate-12">
+                            <i class="fas fa-fist-raised text-white text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="text-xl font-bold text-white transform transition-all duration-300 hover:text-accent-red">
+                                BOXING<span class="text-accent-red">PRO</span>
+                            </span>
+                            <span class="text-xs text-gray-400 block transform transition-all duration-300 hover:text-gray-300">
+                                CHAMPION TRAINING
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm transform transition-all duration-500 hover:text-gray-300">
+                        Professional boxing academy dedicated to developing champions through elite training programs.
+                    </p>
+                </div>
+                
+                <div class="opacity-0 translate-y-10" style="animation-delay: 0.1s;">
+                    <h3 class="text-accent-red font-semibold mb-4 transform transition-all duration-300 hover:translate-x-2">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="{% url 'home' %}" class="footer-link hover:text-accent-red">Home</a></li>
+                        <li><a href="{% url 'training_schedule' %}" class="footer-link hover:text-accent-red">Training Schedule</a></li>
+                        <li><a href="{% url 'bmi_calculator' %}" class="footer-link hover:text-accent-red">BMI Calculator</a></li>
+                        <li><a href="{% url 'shop' %}" class="footer-link hover:text-accent-red">Pro Shop</a></li>
+                    </ul>
+                </div>
+                
+                <div class="opacity-0 translate-y-10" style="animation-delay: 0.2s;">
+                    <h3 class="text-accent-red font-semibold mb-4 transform transition-all duration-300 hover:translate-x-2">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li class="flex items-center space-x-2 transform transition-all duration-300 hover:translate-x-2">
+                            <i class="fas fa-map-marker-alt text-accent-red text-xs"></i>
+                            <span>123 Champion Street, Boxing City</span>
+                        </li>
+                        <li class="flex items-center space-x-2 transform transition-all duration-300 hover:translate-x-2">
+                            <i class="fas fa-phone text-accent-red text-xs"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                        <li class="flex items-center space-x-2 transform transition-all duration-300 hover:translate-x-2">
+                            <i class="fas fa-envelope text-accent-red text-xs"></i>
+                            <span>train@boxingpro.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="opacity-0 translate-y-10" style="animation-delay: 0.3s;">
+                    <h3 class="text-accent-red font-semibold mb-4 transform transition-all duration-300 hover:translate-x-2">Follow Us</h3>
+                    <div class="flex space-x-3 mb-4">
+                        <a href="#" class="social-icon w-8 h-8 bg-gray-800 hover:bg-accent-red flex items-center justify-center rounded transition-all duration-300">
+                            <i class="fab fa-instagram text-white text-xs"></i>
+                        </a>
+                        <a href="#" class="social-icon w-8 h-8 bg-gray-800 hover:bg-accent-red flex items-center justify-center rounded transition-all duration-300">
+                            <i class="fab fa-youtube text-white text-xs"></i>
+                        </a>
+                        <a href="#" class="social-icon w-8 h-8 bg-gray-800 hover:bg-accent-red flex items-center justify-center rounded transition-all duration-300">
+                            <i class="fab fa-twitter text-white text-xs"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-500 text-xs transform transition-all duration-500 hover:text-gray-400">
+                        Training Hours: 6:00 AM - 10:00 PM Daily
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-border-gray mt-8 pt-8 text-center opacity-0 translate-y-10" style="animation-delay: 0.4s;">
+                <p class="text-gray-500 text-sm transform transition-all duration-500 hover:text-gray-400">
+                    © 2024 BoxingPro. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enhanced JavaScript -->
+    <script>
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        if (closeMobileMenu && mobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            });
+        }
+        
+        // Enhanced scroll effect for navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (nav) {
+                if (window.scrollY > 100) {
+                    nav.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+                    nav.style.backdropFilter = 'blur(10px)';
+                } else {
+                    nav.style.backgroundColor = '';
+                    nav.style.backdropFilter = '';
+                }
+            }
+        });
+
+        // Boxing knowledge database
+        const boxingKnowledge = {
+            techniques: {
+                "basic boxing stances": "The main boxing stances are: 1) Orthodox (left foot forward for right-handed), 2) Southpaw (right foot forward for left-handed). Keep feet shoulder-width apart, knees slightly bent, hands up protecting your face.",
+                "jab technique": "The jab is your most important punch. Extend your lead hand straight out, rotate fist to land with knuckles, snap it back quickly. Use it to measure distance and set up combinations.",
+                "cross technique": "The cross is a power punch from your rear hand. Rotate your hips and shoulders while extending the arm, pivot back foot for maximum power.",
+                "hook technique": "Hooks are thrown in a circular motion. Keep elbow at 90 degrees, rotate your torso, and pivot your feet. Don't swing wide - keep it tight.",
+                "uppercut technique": "Uppercuts are thrown upward. Bend knees slightly, drop the hand, and drive upward using leg power. Great for close range.",
+                "defensive techniques": "Key defenses: 1) Slip - move head sideways, 2) Bob and weave - duck under punches, 3) Parry - deflect punches with gloves, 4) Block - cover up, 5) Footwork - move out of range"
+            },
+            
+            training: {
+                "improve punching power": "To increase punching power: 1) Focus on technique over strength, 2) Do explosive exercises like medicine ball throws, 3) Strengthen core muscles, 4) Practice hip rotation, 5) Use heavy bag with proper form",
+                "boxing footwork drills": "Essential footwork drills: 1) Ladder drills for agility, 2) Shadow boxing with emphasis on movement, 3) Circle drills around a cone, 4) Pivot practice, 5) Skip rope for 15-30 minutes daily",
+                "endurance training": "Build boxing endurance with: 1) Roadwork (running) 3-4 times weekly, 2) High-intensity bag work, 3) Circuit training, 4) Sparring sessions, 5) Interval training on assault bike",
+                "speed training": "Improve hand speed with: 1) Speed bag training, 2) Double-end bag, 3) Shadow boxing with light weights, 4) Focus mitts with a trainer, 5) Reaction drills"
+            },
+            
+            equipment: {
+                "essential boxing equipment": "Must-have gear: 1) Hand wraps for wrist support, 2) Boxing gloves (16oz for sparring), 3) Mouthguard, 4) Headgear (for sparring), 5) Groin protector, 6) Quality boxing shoes",
+                "choose boxing gloves": "Select gloves based on use: Bag gloves for training, sparring gloves (16oz+) for partner work, competition gloves for fights. Leather lasts longer than synthetic.",
+                "hand wrapping technique": "Wrap hands properly: Start at wrist, wrap around thumb, through fingers, across knuckles, and secure. Should feel snug but not cutting circulation."
+            },
+            
+            rules: {
+                "basic boxing rules": "Main rules: 3-minute rounds with 1-minute rest, 10-point must system, legal punches above belt, no hitting behind head or back, referee stops fight if fighter can't continue",
+                "scoring in boxing": "Fights are scored: 10-9 for round winner, 10-8 for dominant round, 10-7 for very dominant. Judges consider clean punching, effective aggression, ring generalship, and defense",
+                "weight classes": "Main weight classes: Heavyweight (200+ lbs), Light Heavyweight (175 lbs), Middleweight (160 lbs), Welterweight (147 lbs), Lightweight (135 lbs), Featherweight (126 lbs)"
+            },
+            
+            nutrition: {
+                "boxing diet": "Boxers need: Lean proteins (chicken, fish), complex carbs (brown rice, oats), healthy fats (avocado, nuts), plenty vegetables. Stay hydrated and time meals around training.",
+                "weight cutting": "Safe weight cutting involves gradual reduction over weeks, never drastic dehydration. Work with nutritionist and maintain performance."
+            }
+        };
+
+        // AI Response Generator
+        function generateBoxingResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Check for specific topics
+            for (const [category, topics] of Object.entries(boxingKnowledge)) {
+                for (const [keyword, response] of Object.entries(topics)) {
+                    if (lowerMessage.includes(keyword)) {
+                        return response;
+                    }
+                }
+            }
+            
+            // General responses for common questions
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return "👊 Hello! Ready to talk boxing? Ask me about techniques, training, equipment, or rules!";
+            }
+            
+            if (lowerMessage.includes('thank')) {
+                return "You're welcome! Keep training hard and let me know if you have more boxing questions!";
+            }
+            
+            if (lowerMessage.includes('beginner') || lowerMessage.includes('start')) {
+                return "For beginners: Start with proper stance and basic punches (jab, cross). Focus on defense and footwork. Always use hand wraps and get quality instruction. Consistency is key!";
+            }
+            
+            if (lowerMessage.includes('sparring')) {
+                return "Sparring tips: Start light, focus on technique over power, always use headgear and mouthguard, listen to your coach, and spar with different partners to learn various styles.";
+            }
+            
+            // Default response for non-boxing questions
+            if (!lowerMessage.match(/(box|punch|fight|train|glove|stance|jab|hook|uppercut|spar|round|ko|tko|ring|coach)/)) {
+                return "I specialize in boxing knowledge only. Please ask me about boxing techniques, training, equipment, rules, or history!";
+            }
+            
+            // Fallback response
+            return "That's a great boxing question! Based on your query, I'd recommend focusing on proper technique first. Would you like more specific information about any particular aspect of boxing?";
+        }
+
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotBackdrop = document.getElementById('chatbot-backdrop');
+            const closeChatbot = document.getElementById('close-chatbot');
+            const sendButton = document.getElementById('send-message');
+            const chatInput = document.getElementById('chatbot-input');
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const quickQuestions = document.querySelectorAll('.quick-question');
+
+            // Open chatbot
+            window.openChatbot = function() {
+                chatbotContainer.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                chatInput.focus();
+            }
+
+            // Close chatbot
+            function closeChatbotFunc() {
+                chatbotContainer.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Event listeners
+            if (closeChatbot) closeChatbot.addEventListener('click', closeChatbotFunc);
+            if (chatbotBackdrop) chatbotBackdrop.addEventListener('click', closeChatbotFunc);
+
+            // Send message function
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+
+                // Add user message
+                addMessage(message, 'user');
+                chatInput.value = '';
+
+                // Show typing indicator
+                typingIndicator.classList.remove('hidden');
+
+                // Simulate AI thinking and response
+                setTimeout(() => {
+                    typingIndicator.classList.add('hidden');
+                    const response = generateBoxingResponse(message);
+                    addMessage(response, 'bot');
+                }, 1500);
+            }
+
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex justify-${sender === 'user' ? 'end' : 'start'} message-slide-in`;
+                
+                const messageContent = `
+                    <div class="max-w-[85%]">
+                        <div class="${sender === 'user' ? 'bg-accent-red text-white rounded-lg rounded-br-none' : 'bg-secondary-black text-white rounded-lg rounded-tl-none border border-border-gray'} p-3">
+                            <p class="text-sm">${text}</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 block">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                    </div>
+                `;
+                
+                messageDiv.innerHTML = messageContent;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            // Event listeners for sending messages
+            if (sendButton) sendButton.addEventListener('click', sendMessage);
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+            }
+
+            // Quick question buttons
+            quickQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    chatInput.value = question;
+                    sendMessage();
+                });
+            });
+
+            // Close with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !chatbotContainer.classList.contains('hidden')) {
+                    closeChatbotFunc();
+                }
+            });
+        });
+
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Hero section animations
+                if (document.querySelector('.home-hero')) {
+                    gsap.to('.hero-title', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power2.out"
+                    });
+                    
+                    gsap.to('.hero-subtitle', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        delay: 0.3,
+                        ease: "power2.out"
+                    });
+                    
+                    gsap.to('.hero-buttons', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        delay: 0.6,
+                        ease: "power2.out"
+                    });
+                }
+
+                // Page title animations for other pages
+                const pageTitle = document.querySelector('.page-title');
+                const pageSubtitle = document.querySelector('.page-subtitle');
+                
+                if (pageTitle || pageSubtitle) {
+                    gsap.to('.page-title, .page-subtitle', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: '.section-dark',
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    });
+                }
+
+                // Footer animations
+                const footerElements = document.querySelectorAll('footer > div > div > div');
+                if (footerElements.length > 0) {
+                    footerElements.forEach((element, index) => {
+                        gsap.to(element, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            delay: index * 0.1,
+                            scrollTrigger: {
+                                trigger: 'footer',
+                                start: "top 90%",
+                                toggleActions: "play none none reverse"
+                            }
+                        });
+                    });
+                }
+
+                // 3D card hover effects
+                const cards = document.querySelectorAll('.card-pro');
+                if (cards.length > 0) {
+                    cards.forEach(card => {
+                        card.addEventListener('mousemove', (e) => {
+                            const rect = card.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            
+                            const centerX = rect.width / 2;
+                            const centerY = rect.height / 2;
+                            
+                            const rotateY = (x - centerX) / 20;
+                            const rotateX = (centerY - y) / 20;
+                            
+                            gsap.to(card, {
+                                rotationY: rotateY,
+                                rotationX: rotateX,
+                                transformPerspective: 1000,
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
+                        });
+                        
+                        card.addEventListener('mouseleave', () => {
+                            gsap.to(card, {
+                                rotationY: 0,
+                                rotationX: 0,
+                                duration: 0.5,
+                                ease: "power3.out"
+                            });
+                        });
+                    });
+                }
+
+                // Button hover animations
+                const buttons = document.querySelectorAll('.btn-pro');
+                if (buttons.length > 0) {
+                    buttons.forEach(button => {
+                        button.addEventListener('mouseenter', () => {
+                            gsap.to(button, {
+                                scale: 1.05,
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
+                        });
+                        
+                        button.addEventListener('mouseleave', () => {
+                            gsap.to(button, {
+                                scale: 1,
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
+                        });
+                    });
+                }
+
+                // Stats number animations
+                const statsNumbers = document.querySelectorAll('.stats-number');
+                if (statsNumbers.length > 0) {
+                    statsNumbers.forEach(number => {
+                        number.addEventListener('mouseenter', () => {
+                            gsap.to(number, {
+                                scale: 1.2,
+                                color: '#ef4444',
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
+                        });
+                        
+                        number.addEventListener('mouseleave', () => {
+                            gsap.to(number, {
+                                scale: 1,
+                                color: '#dc2626',
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

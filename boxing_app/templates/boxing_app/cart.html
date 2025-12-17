@@ -1,0 +1,385 @@
+{% extends 'boxing_app/base.html' %}
+{% load static %}
+
+{% block page_title %}Shopping Cart - Boxing Gear{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-20 px-6 bg-gradient-to-br from-dark-bg to-darker-bg relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-red to-transparent"></div>
+        <div class="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-purple to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-blue to-transparent"></div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto relative z-10">
+        <div data-aos="fade-up" data-aos-duration="1000" class="text-center">
+            <h1 class="font-orbitron text-5xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-neon-red via-neon-purple to-neon-blue neon-text">
+                SHOPPING CART
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto font-rajdhani">
+                Review your selected boxing gear and get ready for checkout
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Cart Content -->
+<section class="py-16 px-6 bg-dark-bg relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-10 right-10 w-24 h-24 bg-neon-red rounded-full blur-xl"></div>
+        <div class="absolute bottom-10 left-10 w-32 h-32 bg-neon-blue rounded-full blur-xl"></div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto relative z-10">
+        {% if cart_items %}
+        <!-- Cart Items -->
+        <div data-aos="fade-up" data-aos-duration="1000">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-orbitron text-2xl text-white">
+                    Your <span class="text-neon-red">Selected</span> Items
+                </h2>
+                <div class="text-neon-blue font-rajdhani">
+                    {{ cart_items|length }} item{{ cart_items|length|pluralize }} in cart
+                </div>
+            </div>
+
+            <!-- Cart Items List -->
+            <div class="space-y-6 mb-8">
+                {% for item in cart_items %}
+                <div data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}" class="card-3d group">
+                    <div class="p-6">
+                        <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                            <!-- Product Info -->
+                            <div class="flex items-center gap-4 flex-1">
+                                <!-- Product Image -->
+                                <div class="w-20 h-20 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center border-2 border-white/10 group-hover:border-neon-purple transition-all duration-300">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-16 h-16 object-cover rounded">
+                                    {% else %}
+                                        <i class="fas fa-shopping-bag text-gray-400 text-xl group-hover:text-neon-purple transition-colors duration-300"></i>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Product Details -->
+                                <div class="flex-1">
+                                    <h3 class="font-orbitron text-lg text-white mb-1 group-hover:text-neon-red transition-colors duration-300">
+                                        {{ item.product.name }}
+                                    </h3>
+                                    <p class="text-gray-400 font-rajdhani text-sm mb-2">
+                                        {{ item.product.category }}
+                                    </p>
+                                    <div class="flex items-center gap-4 text-sm">
+                                        <span class="text-neon-red font-orbitron">${{ item.product.price }}</span>
+                                        <span class="text-gray-400">×</span>
+                                        <div class="flex items-center gap-2">
+                                            <!-- Quantity Controls -->
+                                            <form method="POST" action="{% url 'decrease_quantity' item.product.id %}" class="inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="w-6 h-6 rounded-full bg-gray-800 text-white hover:bg-neon-red flex items-center justify-center text-xs">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </form>
+                                            <span class="text-gray-300 font-rajdhani px-2">{{ item.quantity }}</span>
+                                            <form method="POST" action="{% url 'increase_quantity' item.product.id %}" class="inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="w-6 h-6 rounded-full bg-gray-800 text-white hover:bg-neon-blue flex items-center justify-center text-xs">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Price & Actions -->
+                            <div class="flex items-center gap-6">
+                                <!-- Total Price -->
+                                <div class="text-right">
+                                    <p class="text-gray-400 font-rajdhani text-sm">Item Total</p>
+                                    <p class="font-orbitron text-xl text-neon-blue">${{ item.subtotal|floatformat:2 }}</p>
+                                </div>
+                                
+                                <!-- Remove Button -->
+                                <form method="POST" action="{% url 'remove_from_cart' item.product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="w-10 h-10 rounded-full bg-white/5 border border-neon-red text-neon-red hover:bg-neon-red hover:text-white flex items-center justify-center transition-all duration-300 group/remove">
+                                        <i class="fas fa-trash text-xs group-hover/remove:scale-110 transition-transform duration-300"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Cart Summary -->
+            <div data-aos="fade-up" data-aos-delay="300" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Order Summary -->
+                <div class="card-3d group p-6">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center border-2 border-white/20 group-hover:border-neon-blue transition-all duration-300">
+                        <i class="fas fa-receipt text-white text-lg"></i>
+                    </div>
+                    
+                    <h3 class="font-orbitron text-xl text-center text-white mb-6 group-hover:text-neon-blue transition-colors duration-300">
+                        Order Summary
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 border-b border-white/10">
+                            <span class="text-gray-400 font-rajdhani">Subtotal</span>
+                            <span class="font-orbitron text-neon-red">${{ total|floatformat:2 }}</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-white/10">
+                            <span class="text-gray-400 font-rajdhani">Shipping</span>
+                            <span class="font-orbitron text-neon-blue">
+                                {% if total > 100 %}
+                                    FREE
+                                {% else %}
+                                    $15.00
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-white/10">
+                            <span class="text-gray-400 font-rajdhani">Tax (8%)</span>
+                            <span class="font-orbitron text-neon-purple">
+                                <!-- Simple tax calculation without multiply filter -->
+                                {% widthratio total 1 8 %}%
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-t border-white/20">
+                            <span class="text-white font-orbitron text-lg">Total</span>
+                            <span class="font-orbitron text-2xl text-neon-red">
+                                {% if total > 100 %}
+                                    <!-- Free shipping: total price only -->
+                                    ${{ total|floatformat:2 }}
+                                {% else %}
+                                    <!-- $15 shipping: total + 15 -->
+                                    ${{ total|add:15|floatformat:2 }}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Checkout Actions -->
+                <div class="card-3d group p-6 bg-gradient-to-br from-dark-bg to-darker-bg border-2 border-neon-blue/30">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-red to-neon-purple flex items-center justify-center border-2 border-white/20 group-hover:border-neon-red transition-all duration-300">
+                        <i class="fas fa-lock text-white text-lg"></i>
+                    </div>
+                    
+                    <h3 class="font-orbitron text-xl text-center text-white mb-6 group-hover:text-neon-red transition-colors duration-300">
+                        Secure Checkout
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <button class="btn-neon w-full border-neon-red text-neon-red hover:text-white text-lg py-4">
+                            <i class="fas fa-credit-card mr-2"></i>
+                            Proceed to Checkout
+                        </button>
+                        
+                        <div class="text-center">
+                            <p class="text-gray-400 font-rajdhani text-sm mb-3">or</p>
+                            
+                            <a href="{% url 'shop' %}" class="btn-neon w-full border-neon-blue text-neon-blue hover:text-white">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Security Badges -->
+                    <div class="flex justify-center gap-4 mt-6 pt-6 border-t border-white/10">
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-shield-alt text-neon-blue"></i>
+                            <span class="font-rajdhani text-xs">Secure Payment</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-truck text-neon-purple"></i>
+                            <span class="font-rajdhani text-xs">Fast Shipping</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Empty Cart State -->
+        <div data-aos="fade-up" data-aos-duration="1000" class="text-center">
+            <div class="card-3d group py-16 px-8 max-w-2xl mx-auto">
+                <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center border-2 border-white/10 group-hover:border-neon-red transition-all duration-300">
+                    <i class="fas fa-shopping-cart text-gray-400 text-3xl group-hover:text-neon-red transition-colors duration-300"></i>
+                </div>
+                
+                <h2 class="font-orbitron text-3xl text-white mb-4">Your Cart is Empty</h2>
+                
+                <p class="text-gray-400 font-rajdhani text-lg max-w-md mx-auto mb-8">
+                    Looks like you haven't added any boxing gear to your cart yet. Explore our premium collection and find your perfect equipment!
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{% url 'shop' %}" class="btn-neon border-neon-red text-neon-red hover:text-white text-lg px-8 py-4">
+                        <i class="fas fa-store mr-2"></i>
+                        Browse Shop
+                    </a>
+                    <a href="{% url 'home' %}" class="btn-neon border-neon-blue text-neon-blue hover:text-white text-lg px-8 py-4">
+                        <i class="fas fa-home mr-2"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Featured Products Suggestion -->
+            <div data-aos="fade-up" data-aos-delay="200" class="mt-16">
+                <h3 class="font-orbitron text-2xl text-white mb-8 text-center">
+                    Popular <span class="text-neon-blue">Boxing</span> Gear
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <!-- Featured Item 1 -->
+                    <div class="card-3d group text-center p-6">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-red to-neon-purple flex items-center justify-center border-2 border-white/20">
+                            <i class="fas fa-hand-rock text-white text-xl"></i>
+                        </div>
+                        <h4 class="font-orbitron text-white mb-2">Boxing Gloves</h4>
+                        <p class="text-gray-400 font-rajdhani text-sm mb-3">Professional training gloves</p>
+                        <p class="text-neon-red font-orbitron">From $89.99</p>
+                    </div>
+                    
+                    <!-- Featured Item 2 -->
+                    <div class="card-3d group text-center p-6">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center border-2 border-white/20">
+                            <i class="fas fa-dumbbell text-white text-xl"></i>
+                        </div>
+                        <h4 class="font-orbitron text-white mb-2">Training Equipment</h4>
+                        <p class="text-gray-400 font-rajdhani text-sm mb-3">Essential workout gear</p>
+                        <p class="text-neon-blue font-orbitron">From $49.99</p>
+                    </div>
+                    
+                    <!-- Featured Item 3 -->
+                    <div class="card-3d group text-center p-6">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neon-purple to-neon-red flex items-center justify-center border-2 border-white/20">
+                            <i class="fas fa-tshirt text-white text-xl"></i>
+                        </div>
+                        <h4 class="font-orbitron text-white mb-2">Boxing Apparel</h4>
+                        <p class="text-gray-400 font-rajdhani text-sm mb-3">Performance clothing</p>
+                        <p class="text-neon-purple font-orbitron">From $29.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Trust Badges Section -->
+{% if cart_items %}
+<section class="py-16 px-6 bg-darker-bg relative overflow-hidden">
+    <div class="max-w-4xl mx-auto">
+        <div data-aos="fade-up" class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-neon-red/10 flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-neon-red text-xl"></i>
+                </div>
+                <p class="font-rajdhani text-white text-sm">Secure Payment</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-neon-blue/10 flex items-center justify-center">
+                    <i class="fas fa-truck text-neon-blue text-xl"></i>
+                </div>
+                <p class="font-rajdhani text-white text-sm">
+                    {% if total > 100 %}
+                        Free Shipping
+                    {% else %}
+                        Fast Shipping
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-neon-purple/10 flex items-center justify-center">
+                    <i class="fas fa-undo text-neon-purple text-xl"></i>
+                </div>
+                <p class="font-rajdhani text-white text-sm">30-Day Returns</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-neon-red/10 flex items-center justify-center">
+                    <i class="fas fa-headset text-neon-red text-xl"></i>
+                </div>
+                <p class="font-rajdhani text-white text-sm">24/7 Support</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- GSAP Animations -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate cart items on scroll
+        gsap.utils.toArray('.card-3d').forEach((card, index) => {
+            gsap.fromTo(card, {
+                y: 60,
+                opacity: 0,
+                rotationX: -10
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationX: 0,
+                duration: 1,
+                delay: index * 0.1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+        
+        // Remove button animations
+        gsap.utils.toArray('button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                gsap.to(button, {
+                    scale: 1.1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                gsap.to(button, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+        
+        // Cart icon floating animation
+        gsap.to('.fa-shopping-cart', {
+            y: -5,
+            rotation: 5,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+        
+        // Pulse animation for checkout button
+        if (document.querySelector('.btn-neon')) {
+            gsap.to('.btn-neon', {
+                boxShadow: "0 0 20px rgba(255, 0, 60, 0.4)",
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut"
+            });
+        }
+    });
+</script>
+{% endblock %}
